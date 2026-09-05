@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Found Item — Lost &amp; Found Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <!-- Page Header -->
+  <div style="background:linear-gradient(135deg,#064e3b,#065f46);padding:48px 0 64px">
+    <div class="container" style="text-align:center">
+      <div class="section-tag" style="background:rgba(16,185,129,.2);color:#6ee7b7">✅ Found Item</div>
+      <h1 style="color:white;margin-top:12px;font-size:2rem">Report a Found Item</h1>
+      <p style="color:rgba(255,255,255,.65);margin-top:8px">Great job finding it! Help reunite this item with its owner.</p>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div style="margin-top:-28px;padding-bottom:80px">
+    <div class="container" style="max-width:720px">
+      <div class="card" style="border-radius:var(--radius-xl);box-shadow:var(--shadow-lg)">
+        <div class="card-header flex-between">
+          <div>
+            <h3 style="margin-bottom:2px">Item Information</h3>
+            <p style="font-size:.82rem;margin:0">All fields marked * are required</p>
+          </div>
+          <span class="badge badge-green">Found</span>
+        </div>
+        <div class="card-body" style="padding:32px">
+          <form id="postFoundForm">
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Item Name *</label>
+                <div class="input-icon-wrap">
+                  <span class="icon">📦</span>
+                  <input type="text" class="form-control" name="item_name" placeholder="e.g. Blue Backpack" required />
+                </div>
+                <span class="form-error">This field is required.</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Category *</label>
+                <select class="form-control" name="category" required>
+                  <option value="">Select category</option>
+                  <option>Electronics</option>
+                  <option>Bags</option>
+                  <option>Accessories</option>
+                  <option>Documents</option>
+                  <option>Vehicles</option>
+                  <option>Clothing</option>
+                  <option>Keys</option>
+                  <option>Others</option>
+                </select>
+                <span class="form-error">Please select a category.</span>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Where You Found It *</label>
+                <div class="input-icon-wrap">
+                  <span class="icon">📍</span>
+                  <input type="text" class="form-control" name="location" placeholder="e.g. AURIC City Mall, Entrance" required />
+                </div>
+                <span class="form-error">This field is required.</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date Found *</label>
+                <div class="input-icon-wrap">
+                  <span class="icon">📅</span>
+                  <input type="date" class="form-control" name="date_found" required />
+                </div>
+                <span class="form-error">Please select a date.</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Description *</label>
+              <textarea class="form-control" name="description" rows="4" placeholder="Describe the item: color, brand, condition, any contents visible, etc. This helps verify ownership." required></textarea>
+              <span class="form-error">Please describe the item.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Upload Image (recommended)</label>
+              <div class="upload-area">
+                <input type="file" name="image" accept="image/*" style="display:none" />
+                <div class="upload-icon">📸</div>
+                <p>Click to upload or <strong>drag &amp; drop</strong> a photo of the item</p>
+                <p style="margin-top:4px;font-size:.78rem">PNG, JPG up to 5 MB</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Your Contact Number *</label>
+              <div class="input-icon-wrap">
+                <span class="icon">📞</span>
+                <input type="tel" class="form-control" name="contact" placeholder="e.g. 9876543210" required />
+              </div>
+              <span class="form-error">Please enter your contact number.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Current Item Location / Handover Point</label>
+              <div class="input-icon-wrap">
+                <span class="icon">🏠</span>
+                <input type="text" class="form-control" name="handover" placeholder="Where can the owner pick it up?" />
+              </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:8px">
+              <a href="index.html" class="btn btn-outline" style="flex:1;justify-content:center">Cancel</a>
+              <button type="submit" class="btn btn-success" style="flex:2;justify-content:center">
+                ✅ Submit Found Item Report
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Thank you note -->
+      <div class="card mt-3" style="margin-top:20px;border-left:4px solid var(--green)">
+        <div class="card-body" style="padding:20px">
+          <h4 style="font-size:.95rem;margin-bottom:8px">🙏 Thank you for being honest!</h4>
+          <p style="font-size:.85rem">Your report will be reviewed and listed publicly. The rightful owner can reach out to you directly. Please keep the item safe until then.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = NAV_HTML;
+    document.getElementById('footer-placeholder').innerHTML = FOOTER_HTML;
+  </script>
+</body>
+</html>

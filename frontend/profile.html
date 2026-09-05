@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — Lost &amp; Found Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <!-- Header -->
+  <div style="background:var(--navy);padding:48px 0 80px">
+    <div class="container" style="text-align:center">
+      <h1 style="color:white;font-size:1.8rem">My Profile</h1>
+      <p style="color:rgba(255,255,255,.55);margin-top:6px">Manage your account information and preferences</p>
+    </div>
+  </div>
+
+  <div style="margin-top:-52px;padding-bottom:80px">
+    <div class="container" style="max-width:860px">
+      <div class="grid-2" style="align-items:start">
+
+        <!-- Profile Card -->
+        <div class="card profile-card">
+          <div style="text-align:center;margin-bottom:24px">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar">
+                <span class="profile-avatar-letter">R</span>
+              </div>
+              <div class="profile-avatar-edit" title="Change photo">✏️</div>
+            </div>
+            <h3 class="profile-name" style="margin-top:8px">Ravi Patil</h3>
+            <p class="profile-email" style="font-size:.85rem">ravi@example.com</p>
+            <span class="badge badge-green" style="margin-top:6px">✅ Verified Member</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label" style="font-size:0.75rem;margin-bottom:4px">Full Name</label>
+              <input type="text" id="profileName" class="form-control" placeholder="Your name" />
+              <span id="profileNameDisplay" style="display:none"></span>
+            </div>
+            <div class="profile-field" style="border-bottom:none;padding:6px 0;margin-bottom:0">
+              <div><div class="label">Email</div><div class="value profile-email" style="font-weight:600;font-size:0.9rem">user@example.com</div></div>
+              <span class="badge badge-green">Verified</span>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label" style="font-size:0.75rem;margin-bottom:4px">Phone Number</label>
+              <input type="text" id="profilePhone" class="form-control" placeholder="Your phone number" />
+              <span id="profilePhoneDisplay" style="display:none"></span>
+            </div>
+            <div class="profile-field" style="border-bottom:none;padding:6px 0;margin-bottom:0">
+              <div><div class="label">Member Since</div><div class="value" id="profileCreatedAt" style="font-weight:600;font-size:0.9rem">—</div></div>
+            </div>
+          </div>
+
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+            <button id="saveProfileBtn" class="btn btn-primary" style="justify-content:center">Save Changes</button>
+            <button class="btn btn-outline btn-danger" style="justify-content:center" onclick="if(confirm('Logout?'))Auth.logout()">Logout</button>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div style="display:flex;flex-direction:column;gap:20px">
+
+          <!-- Stats -->
+          <div class="card">
+            <div class="card-header"><h3 style="font-size:1rem">📊 My Activity</h3></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:14px">
+              <div class="stat-card" style="padding:16px">
+                <div class="stat-icon red" style="width:40px;height:40px;font-size:1.1rem">🔍</div>
+                <div><div class="stat-value" style="font-size:1.4rem" id="profileLostCount">0</div><div class="stat-label">Lost Reports</div></div>
+              </div>
+              <div class="stat-card" style="padding:16px">
+                <div class="stat-icon green" style="width:40px;height:40px;font-size:1.1rem">✅</div>
+                <div><div class="stat-value" style="font-size:1.4rem" id="profileFoundCount">0</div><div class="stat-label">Found Reports</div></div>
+              </div>
+              <div class="stat-card" style="padding:16px">
+                <div class="stat-icon teal" style="width:40px;height:40px;font-size:1.1rem">🔗</div>
+                <div><div class="stat-value" style="font-size:1.4rem" id="profileMatchCount">0</div><div class="stat-label">Successful Matches</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- My Recent Reports -->
+          <div class="card">
+            <div class="card-header"><h3 style="font-size:1rem">📋 My Recent Reports</h3></div>
+            <div id="profileReportsList" class="card-body" style="display:flex;flex-direction:column;gap:10px;max-height:300px;overflow-y:auto">
+              <div style="text-align:center;padding:20px;color:var(--text-muted)">Loading your reports…</div>
+            </div>
+          </div>
+
+          <!-- Change Password -->
+          <div class="card">
+            <div class="card-header"><h3 style="font-size:1rem">🔒 Change Password</h3></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Current Password</label>
+                <input type="password" id="currentPw" class="form-control" placeholder="••••••••" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="password" id="newPw" class="form-control" placeholder="Min. 8 characters" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" id="confirmPw" class="form-control" placeholder="Repeat new password" />
+              </div>
+              <button id="changePwBtn" class="btn btn-primary" style="width:100%;justify-content:center">Update Password</button>
+            </div>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="card" style="border-color:rgba(239,68,68,.2)">
+            <div class="card-body" style="padding:20px">
+              <h4 style="font-size:.9rem;color:var(--red);margin-bottom:6px">⚠️ Danger Zone</h4>
+              <p style="font-size:.82rem;margin-bottom:14px">Permanently delete your account and all associated data.</p>
+              <button class="btn btn-danger btn-sm" onclick="if(confirm('This cannot be undone. Are you sure?'))showToast('Account deletion requested.','error')">Delete Account</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = NAV_HTML;
+    document.getElementById('footer-placeholder').innerHTML = FOOTER_HTML;
+
+    function editField(field) {
+      const val = field === 'name'
+        ? prompt('Enter your name:', document.querySelector('.profile-name').textContent)
+        : prompt('Enter your phone:', document.getElementById('phone-val').textContent);
+      if (val) {
+        if (field === 'name') document.querySelectorAll('.profile-name').forEach(el => el.textContent = val);
+        else document.getElementById('phone-val').textContent = val;
+        showToast('Updated!', 'success');
+      }
+    }
+    function saveProfile() { showToast('Profile saved successfully!', 'success'); }
+  </script>
+</body>
+</html>

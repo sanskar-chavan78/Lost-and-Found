@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Items — Lost &amp; Found Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <!-- Page Header -->
+  <div style="background:var(--navy);padding:48px 0 64px">
+    <div class="container" style="text-align:center">
+      <div class="section-tag">📋 All Items</div>
+      <h1 style="color:white;margin-top:12px;font-size:2rem">Browse Lost &amp; Found Items</h1>
+      <p style="color:rgba(255,255,255,.6);margin-top:8px">Search through all reported items in your area.</p>
+    </div>
+  </div>
+
+  <!-- Search & Filters -->
+  <div style="background:white;border-bottom:1px solid var(--border);margin-top:-28px;padding:28px 0;position:sticky;top:68px;z-index:100;box-shadow:var(--shadow-sm)">
+    <div class="container">
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <div class="search-bar" style="flex:1;min-width:240px">
+          <span style="font-size:1rem">🔍</span>
+          <input id="searchInput" type="text" placeholder="Search by item name or location…" />
+          <button class="btn btn-primary btn-sm">Search</button>
+        </div>
+        <div class="filter-bar">
+          <select id="typeFilter" class="form-control" style="width:auto">
+            <option value="">All Types</option>
+            <option value="lost">Lost Items</option>
+            <option value="found">Found Items</option>
+          </select>
+          <select id="categoryFilter" class="form-control" style="width:auto">
+            <option value="">All Categories</option>
+            <option>Electronics</option>
+            <option>Bags</option>
+            <option>Accessories</option>
+            <option>Documents</option>
+            <option>Vehicles</option>
+            <option>Clothing</option>
+            <option>Keys</option>
+            <option>Others</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:10px">
+          <a href="post-lost.html" class="btn btn-outline btn-sm">+ Post Lost</a>
+          <a href="post-found.html" class="btn btn-amber btn-sm">+ Post Found</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Items Grid -->
+  <section class="section-sm">
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px">
+        <p style="font-size:.875rem;color:var(--text-muted)" id="resultCount">Showing all items</p>
+        <div style="display:flex;gap:8px">
+          <span class="badge badge-red" id="lostCountBadge">🔍 Lost: 0</span>
+          <span class="badge badge-green" id="foundCountBadge">✅ Found: 0</span>
+        </div>
+      </div>
+      <div class="grid-auto" id="itemsGrid"></div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = NAV_HTML;
+    document.getElementById('footer-placeholder').innerHTML = FOOTER_HTML;
+  </script>
+</body>
+</html>

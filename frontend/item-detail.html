@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Details — Lost &amp; Found Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 40px;
+    }
+    .detail-image {
+      background: white;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .detail-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .detail-image span {
+      font-size: 8rem;
+    }
+    .detail-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .detail-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+    }
+    .detail-title {
+      font-size: 2.5rem;
+      margin: 12px 0;
+      color: var(--navy);
+    }
+    .detail-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .detail-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .detail-section h3 {
+      font-size: 1.1rem;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .detail-info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+    .detail-description {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      background: white;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+    }
+    .contact-card {
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      color: white;
+      padding: 32px;
+      border-radius: var(--radius-xl);
+      margin-top: 12px;
+      box-shadow: var(--shadow-lg);
+    }
+    .contact-card h4 {
+      margin-bottom: 16px;
+      font-size: 1.2rem;
+      color: var(--amber-light);
+    }
+    .contact-btn {
+      width: 100%;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    @media (max-width: 992px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .detail-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <section class="section">
+    <div class="container">
+      <div style="margin-bottom:24px">
+        <a href="javascript:history.back()" class="btn btn-ghost btn-sm" style="padding-left:0">
+          ← Back to items
+        </a>
+      </div>
+
+      <div id="itemDetailContainer">
+        <!-- Loading state -->
+        <div style="text-align:center;padding:100px 0">
+          <div style="font-size:3rem">⏳</div>
+          <p>Loading item details...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = NAV_HTML;
+    document.getElementById('footer-placeholder').innerHTML = FOOTER_HTML;
+
+    async function loadItemDetail() {
+      const params = new URLSearchParams(window.location.search);
+      const itemId = params.get('id');
+      const container = document.getElementById('itemDetailContainer');
+
+      if (!itemId) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">❌</div>
+            <h3>No Item ID provided</h3>
+            <p>Please select an item from the list.</p>
+            <a href="items.html" class="btn btn-primary mt-3">Browse Items</a>
+          </div>`;
+        return;
+      }
+
+      try {
+        const response = await API.get(`/items/single/${itemId}`);
+        const item = response.data;
+
+        if (!item) {
+          container.innerHTML = `<div class="empty-state"><h3>Item not found</h3></div>`;
+          return;
+        }
+
+        const icon = categoryIcon(item.category);
+        const color = categoryColor(item.category);
+        const typeBadge = item.type === 'lost'
+          ? `<span class="badge badge-red">🔍 Lost Report</span>`
+          : `<span class="badge badge-green">✅ Found Report</span>`;
+
+        container.innerHTML = `
+          <div class="detail-grid">
+            <div class="detail-image" style="background:${color}08">
+              ${item.image 
+                ? `<img src="${item.image}" alt="${item.name}">`
+                : `<span>${icon}</span>`
+              }
+            </div>
+            
+            <div class="detail-content">
+              <div class="detail-header">
+                <div class="detail-meta">
+                  ${typeBadge}
+                  <span class="badge badge-navy">${item.category}</span>
+                </div>
+                <h1 class="detail-title">${item.name}</h1>
+                <div class="detail-info-row">
+                  <span>📍</span> <strong>Location:</strong> ${item.location}
+                </div>
+                <div class="detail-info-row" style="margin-top:8px">
+                  <span>📅</span> <strong>Date Reported:</strong> ${new Date(item.date).toLocaleDateString(undefined, { dateStyle: 'long' })}
+                </div>
+              </div>
+
+              <div class="detail-section">
+                <h3>📝 Description</h3>
+                <div class="detail-description">
+                  ${item.description || 'No description provided.'}
+                </div>
+              </div>
+
+              <div class="contact-card">
+                <h4>👤 Reporter Contact</h4>
+                <p style="color:rgba(255,255,255,.7);font-size:.9rem;margin-bottom:12px">
+                  Please contact the reporter directly to coordinate the return or verify the item.
+                </p>
+                <div class="detail-info-row" style="color:white">
+                  <span>📱</span> <strong>Phone:</strong> ${item.contact}
+                </div>
+                <a href="tel:${item.contact}" class="btn btn-amber contact-btn">
+                  📞 Contact Now
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">⚠️</div>
+            <h3>Failed to load details</h3>
+            <p>${err.message}</p>
+          </div>`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadItemDetail);
+  </script>
+</body>
+</html>

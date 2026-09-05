@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Match Items — Lost &amp; Found Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <!-- Page Header -->
+  <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);padding:48px 0 64px">
+    <div class="container" style="text-align:center">
+      <div class="section-tag" style="background:rgba(139,92,246,.2);color:#c4b5fd">🔗 Smart Matching</div>
+      <h1 style="color:white;margin-top:12px;font-size:2rem">Potential Matches Found</h1>
+      <p style="color:rgba(255,255,255,.6);margin-top:8px">Our algorithm compares lost and found items to suggest possible matches based on category, location and description similarity.</p>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon amber">🔍</div>
+          <div class="stat-content">
+            <div class="stat-value" id="matchCountValue" data-count="0">0</div>
+            <div class="stat-label">Active Matches</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-content">
+            <div class="stat-value" id="reunionCountValue" data-count="0">0</div>
+            <div class="stat-label">Successful Reunions</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon teal">🤖</div>
+          <div class="stat-content">
+            <div class="stat-value" id="accuracyValue" data-count="0">0</div>
+            <div class="stat-label">% Accuracy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Match Cards -->
+  <section class="section-sm">
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px">
+        <div>
+          <h2 class="page-title">Suggested Matches</h2>
+          <p class="page-sub">Ranked by similarity score. Higher score = more likely a match.</p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-outline btn-sm">🔄 Refresh</button>
+          <a href="items.html" class="btn btn-primary btn-sm">View All Items</a>
+        </div>
+      </div>
+
+      <div id="matchContainer">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Info box -->
+      <div class="card" style="border-left:4px solid #8b5cf6;margin-top:8px">
+        <div class="card-body" style="padding:20px">
+          <h4 style="font-size:.95rem;margin-bottom:8px">🤖 How matching works</h4>
+          <p style="font-size:.85rem">We compare category, location proximity, date range, and key description words to generate a match score. A score above 70% is considered a strong match. Always verify by contacting the finder directly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/match.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = NAV_HTML;
+    document.getElementById('footer-placeholder').innerHTML = FOOTER_HTML;
+    
+    // Refresh counts on load
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof updateGlobalStats === 'function') updateGlobalStats();
+    });
+  </script>
+</body>
+</html>

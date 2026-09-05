@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost &amp; Found Portal — Find What You Lost</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <div id="nav-placeholder"></div>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="section-tag">🔍 Community Lost &amp; Found</div>
+      <h1>Find What You Lost,<br><em>Return What You Found</em></h1>
+      <p>A trusted platform to report lost items, list found belongings, and let smart matching reunite you with what matters most.</p>
+      <div class="hero-cta">
+        <a href="post-lost.html" class="btn btn-amber btn-lg">🔍 Report Lost Item</a>
+        <a href="post-found.html" class="btn btn-outline btn-lg" style="color:white;border-color:rgba(255,255,255,.3)">✅ Report Found Item</a>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">How It Works</div>
+        <h2>Simple. Smart. Secure.</h2>
+        <p>Three easy steps to reconnect people with their lost belongings in the Aurangabad community.</p>
+      </div>
+      <div class="features-grid">
+        <div class="card feature-card">
+          <div class="feature-icon" style="background:rgba(245,158,11,.12)">📝</div>
+          <h3>Post Your Item</h3>
+          <p>Report a lost or found item in under 2 minutes. Add details, photos, and contact info to reach the right person fast.</p>
+          <a href="post-lost.html" class="btn btn-outline btn-sm mt-3" style="margin-top:16px">Get Started →</a>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon" style="background:rgba(14,165,233,.12)">🤖</div>
+          <h3>Smart Matching</h3>
+          <p>Our algorithm scans posted items and automatically suggests potential matches based on category, location, and description.</p>
+          <a href="match.html" class="btn btn-outline btn-sm" style="margin-top:16px">View Matches →</a>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon" style="background:rgba(16,185,129,.12)">🔒</div>
+          <h3>Secure Contact</h3>
+          <p>Reach out safely through the platform. Your personal details are protected until you choose to share them directly.</p>
+          <a href="register.html" class="btn btn-outline btn-sm" style="margin-top:16px">Join Now →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RECENT ITEMS ── -->
+  <section class="section" style="background:white;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="flex-between mb-4" style="margin-bottom:40px">
+        <div>
+          <div class="section-tag" style="text-align:left">Latest Posts</div>
+          <h2 style="margin-top:8px">Recently Listed Items</h2>
+        </div>
+        <a href="items.html" class="btn btn-outline">View All Items →</a>
+      </div>
+      <div class="grid-auto" id="recentItems"></div>
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ── -->
+  <section class="section">
+    <div class="container">
+      <div style="background:var(--navy);border-radius:var(--radius-xl);padding:60px 48px;text-align:center;position:relative;overflow:hidden">
+        <div style="position:absolute;top:-80px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(245,158,11,.2),transparent 70%);border-radius:50%"></div>
+        <div style="position:relative;z-index:1">
+          <h2 style="color:white;margin-bottom:12px">Did You Lose Something?</h2>
+          <p style="color:rgba(255,255,255,.6);font-size:1.05rem;max-width:480px;margin:0 auto 32px">
+            Post your lost item now and let the community help you find it. It only takes 2 minutes.
+          </p>
+          <div class="hero-cta">
+            <a href="post-lost.html" class="btn btn-amber btn-lg">🔍 Post Lost Item</a>
+            <a href="items.html" class="btn btn-outline btn-lg" style="color:white;border-color:rgba(255,255,255,.3)">Browse All Items</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = NAV_HTML;
+    document.getElementById('footer-placeholder').innerHTML = FOOTER_HTML;
+  </script>
+</body>
+</html>

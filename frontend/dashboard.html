@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Lost &amp; Found Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <!-- Dashboard Header -->
+  <div class="dash-header">
+    <div class="container">
+      <div class="dash-header-inner">
+        <div class="dash-avatar">
+          <span class="dash-avatar-letter">R</span>
+        </div>
+        <div>
+          <h2>Welcome back, <span class="dash-user-name">User</span>! 👋</h2>
+          <p>Here's an overview of your activity on the portal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-body">
+    <div class="container" style="padding-bottom:80px">
+
+      <!-- Stat Cards -->
+      <div class="grid-4" style="margin-bottom:32px">
+        <div class="stat-card">
+          <div class="stat-icon amber">📦</div>
+          <div><div class="stat-value" data-stat="total">—</div><div class="stat-label">Items Posted</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">🔍</div>
+          <div><div class="stat-value" data-stat="lost">—</div><div class="stat-label">Lost Reports</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div><div class="stat-value" data-stat="found">—</div><div class="stat-label">Found Reports</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon teal">🔗</div>
+          <div><div class="stat-value" data-stat="match">—</div><div class="stat-label">Matches Found</div></div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card" style="margin-bottom:28px">
+        <div class="card-body" style="padding:24px">
+          <h3 style="font-size:1rem;margin-bottom:16px">⚡ Quick Actions</h3>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="post-lost.html" class="btn btn-outline" style="gap:8px">🔍 Report Lost Item</a>
+            <a href="post-found.html" class="btn btn-outline" style="gap:8px">✅ Report Found Item</a>
+            <a href="match.html" class="btn btn-outline" style="gap:8px">🔗 Check Matches</a>
+            <a href="items.html" class="btn btn-outline" style="gap:8px">📋 Browse Items</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Match Alerts Container -->
+      <div id="matchAlertsContainer"></div>
+
+      <!-- My Items -->
+      <div>
+        <div class="flex-between" style="margin-bottom:20px">
+          <h3>My Posted Items</h3>
+          <a href="items.html" class="btn btn-outline btn-sm">View All</a>
+        </div>
+        <div class="grid-auto" id="dashItemsGrid">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = NAV_HTML;
+    document.getElementById('footer-placeholder').innerHTML = FOOTER_HTML;
+
+    // Real-time Match Notifications
+    const socket = io('http://localhost:5000');
+    
+    socket.on('newMatch', (data) => {
+      console.log('New Match Found:', data);
+      const user = Auth.getUser();
+      if (!user) return;
+
+      // Only show if the new item or the matched item belongs to the current user
+      if (data.newItem.userId === user._id || data.matchedWith.userId === user._id) {
+        showMatchAlert(data);
+        showToast('🎉 Potential match found for your item!', 'success');
+      }
+    });
+
+    function showMatchAlert(data) {
+      const container = document.getElementById('matchAlertsContainer');
+      const item = data.newItem.userId === Auth.getUser()._id ? data.newItem : data.matchedWith;
+      const matchedWith = data.newItem.userId === Auth.getUser()._id ? data.matchedWith : data.newItem;
+      
+      const alertHtml = `
+        <div class="match-found-alert" style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(245,158,11,.03));border:1.5px solid rgba(245,158,11,.3);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div style="display:flex;align-items:center;gap:14px">
+            <span style="font-size:2rem">🎉</span>
+            <div>
+              <strong style="font-family:var(--font);color:var(--navy)">Potential Match Found!</strong>
+              <p style="font-size:.85rem;margin-top:2px">Your "${item.name}" has a ${data.matchPercent}% match with a ${matchedWith.type} item: "${matchedWith.name}" in ${matchedWith.location}.</p>
+            </div>
+          </div>
+          <a href="match.html" class="btn btn-amber btn-sm">View Match</a>
+        </div>
+      `;
+      container.innerHTML = alertHtml + container.innerHTML;
+    }
+  </script>
+</body>
+</html>

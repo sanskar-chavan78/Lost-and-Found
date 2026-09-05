@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — Lost &amp; Found Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <div class="admin-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span>⚙️</span> Admin Panel
+      </div>
+      <div class="sidebar-section">Main</div>
+      <a href="#" onclick="Admin.showSection('dashboard')" id="nav-dashboard" class="active"><span>📊</span> Dashboard</a>
+      <a href="#" onclick="Admin.showSection('lost')" id="nav-lost"><span>🔍</span> Lost Items</a>
+      <a href="#" onclick="Admin.showSection('found')" id="nav-found"><span>✅</span> Found Items</a>
+      <a href="#" onclick="Admin.showSection('users')" id="nav-users"><span>👥</span> Users</a>
+      
+      <a href="index.html" style="margin-top:auto;color:rgba(255,255,255,.4)"><span>←</span> Back to Site</a>
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="admin-content">
+
+      <!-- Page Header -->
+      <div class="page-header flex-between" style="margin-bottom:28px">
+        <div>
+          <h2 class="page-title">Dashboard Overview</h2>
+          <div style="display:flex;align-items:center;gap:8px">
+            <p class="page-sub" style="margin-bottom:0">Welcome back, Admin! Here's what's happening today.</p>
+            <span id="socket-status" class="badge" style="background:#f1f5f9;color:#64748b;font-size:10px;padding:2px 6px;border-radius:10px;display:flex;align-items:center;gap:4px">
+              <span style="width:6px;height:6px;background:#cbd5e1;border-radius:50%"></span> Offline
+            </span>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px" id="headerActions">
+          <button class="btn btn-outline btn-sm" onclick="alert('Exporting data...')">📥 Export</button>
+          <div class="dropdown" style="position:relative">
+            <button class="btn btn-primary btn-sm dropdown-toggle" onclick="this.nextElementSibling.classList.toggle('show')">+ Add Item</button>
+            <div class="dropdown-menu" style="position:absolute;top:100%;right:0;background:white;box-shadow:0 10px 15px -3px rgba(0,0,0,0.1);border-radius:6px;padding:8px 0;z-index:100;display:none;min-width:140px;border:1px solid #e5e7eb">
+              <a href="post-lost.html" style="display:block;padding:8px 16px;font-size:.85rem;color:var(--navy);text-decoration:none">Report Lost</a>
+              <a href="post-found.html" style="display:block;padding:8px 16px;font-size:.85rem;color:var(--navy);text-decoration:none">Report Found</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard View -->
+      <div id="dashboardView">
+        <!-- Stats Cards -->
+        <div class="grid-4" style="margin-bottom:32px">
+          <div class="stat-card">
+            <div class="stat-icon amber">📦</div>
+            <div><div class="stat-value" id="stat-total-items">...</div><div class="stat-label">Total Items</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red">⏳</div>
+            <div><div class="stat-value" id="stat-pending-review">...</div><div class="stat-label">Pending Review</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">✅</div>
+            <div><div class="stat-value" id="stat-approved-items">...</div><div class="stat-label">Approved Items</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon teal">👥</div>
+            <div><div class="stat-value" id="stat-total-users">...</div><div class="stat-label">Registered Users</div></div>
+          </div>
+        </div>
+
+        <!-- Quick Stats Row -->
+        <div class="grid-2" style="margin-bottom:28px">
+          <div class="card">
+            <div class="card-header"><h3 style="font-size:1rem">📈 Weekly Activity</h3></div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px">
+                    <span>Lost Items Posted</span><strong id="stat-weekly-lost">...</strong>
+                  </div>
+                  <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
+                    <div style="width:0%;height:100%;background:var(--red);border-radius:4px"></div>
+                  </div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px">
+                    <span>Found Items Posted</span><strong id="stat-weekly-found">...</strong>
+                  </div>
+                  <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
+                    <div style="width:0%;height:100%;background:var(--green);border-radius:4px"></div>
+                  </div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:6px">
+                    <span>Successful Matches</span><strong id="stat-weekly-matches">...</strong>
+                  </div>
+                  <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
+                    <div style="width:0%;height:100%;background:var(--amber);border-radius:4px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 style="font-size:1rem">🏷 Category Breakdown</h3></div>
+            <div class="card-body" id="categoryBreakdownContainer">
+              <div style="text-align:center;padding:20px;color:var(--text-muted)">Loading categories…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table View (used for items and users) -->
+      <div class="card" id="tableView">
+        <div class="card-header flex-between">
+          <h3 id="tableTitle" style="font-size:1rem">📋 All Items (Pending Review)</h3>
+          <div style="display:flex;gap:10px;align-items:center">
+            <input type="text" id="adminSearchInput" class="form-control" placeholder="Search…" style="width:180px;padding:8px 12px;font-size:.82rem" />
+            <div class="dropdown">
+              <button class="btn btn-outline btn-sm dropdown-toggle">Filter</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrap" id="adminTableContainer">
+          <table>
+            <thead>
+              <tr id="adminTableHeader">
+                <!-- Set by JS -->
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer" style="display:flex;justify-content:space-between;align-items:center">
+          <span id="tablePaginationInfo" style="font-size:.82rem;color:var(--text-muted)">Showing 0 of 0 items</span>
+          <div style="display:flex;gap:6px" id="paginationControls">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="js/partials.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = NAV_HTML;
+    
+    // Auth Check
+    Auth.restoreSession();
+    if (!Auth.isLoggedIn() || Auth.getUser().role !== 'admin') {
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
